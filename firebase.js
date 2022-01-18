@@ -30,9 +30,10 @@ function getdata() {
       let items = [];
       snapshot.forEach((cs) => {
         let temp = cs.val();
+        // console.log(temp);
         items.push({
           text: temp.text,
-          status: "active"
+          status: temp.val
         });
       })
       generatitem(items);
@@ -96,17 +97,23 @@ function createventlistner() {
         if (data.status === "active") {
           const postData = {
             text: data.text,
-            status: data.status
+            status: "completed"
           };
-          console.log(postData);
-        }
-        else {
+          const updates = {};
+          updates['/users/' + username] = postData;
+          return update(ref(db), updates);
+        } 
+        else if(data.status==="completed"){
           const postData = {
             text: data.text,
-            status: data.status
+            status: "active"
           };
-          console.log(postData);
+          const updates = {};
+          updates['/users/' + username] = postData;
+          return update(ref(db), updates);
         }
+      }, {
+        onlyOnce: true
       });
     })
   }
