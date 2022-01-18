@@ -40,9 +40,9 @@ function getdata() {
 }
 function generatitem(items) {
   let itemsHTML = "";
-  let len=items.length;
-  let itemsleft=
-  ` 
+  let len = items.length;
+  let itemsleft =
+    ` 
     <div class="items-left">
       ${len} items left
     </div>
@@ -71,27 +71,45 @@ function generatitem(items) {
     `;
   });
   document.querySelector(".todo-items").innerHTML = itemsHTML;
-  document.getElementById("todo-items-info-id").innerHTML=itemsleft;
+  document.getElementById("todo-items-info-id").innerHTML = itemsleft;
   createventlistner();
 }
-function markcompleted() {
-  user = document.getElementById("")
-  const postData = {
-    email: email,
-    username: user
-  };
-  const updates = {};
-  updates['/users/' + user] = postData;
-  return update(ref(db), updates);
+function find_user(range) {
+  let selecter = document.querySelectorAll(".todo-text");
+  for (let i = 0; i <= range; i++) {
+    if (i == range) {
+      let text = selecter[i].textContent;
+      let user = text.replace(/\s+/g, ' ').trim()
+      return user;
+    }
+  }
 }
 function createventlistner() {
-  let todocheckmarks = document.querySelectorAll(".todo-item .check-mark");
-  // console.log(todocheckmarks);
-  todocheckmarks.forEach((todocheckmark) => {
-    todocheckmark.addEventListener("click", () => {
-      markcompleted();
+  let event_list = document.querySelectorAll(".check-mark");
+
+  for (let i = 1; i < event_list.length; i++) {
+    let username = find_user(i - 1);
+    event_list[i].addEventListener("click", () => {
+      const starCountRef = ref(db, 'users/' + username);
+      onValue(starCountRef, (snapshot) => {
+        const data = snapshot.val();
+        if (data.status === "active") {
+          const postData = {
+            text: data.text,
+            status: data.status
+          };
+          console.log(postData);
+        }
+        else {
+          const postData = {
+            text: data.text,
+            status: data.status
+          };
+          console.log(postData);
+        }
+      });
     })
-  })
+  }
 }
 
 getdata();
