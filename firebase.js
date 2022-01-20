@@ -22,6 +22,7 @@ form.addEventListener("submit", (event) => {
     status: "active"
   });
   document.getElementById("todo-input").value = "";
+  getdata();
 })
 function getdata() {
   const dbref = ref(db);
@@ -30,10 +31,9 @@ function getdata() {
       let items = [];
       snapshot.forEach((cs) => {
         let temp = cs.val();
-        // console.log(temp);
         items.push({
           text: temp.text,
-          status: temp.val
+          status: temp.status
         });
       })
       generatitem(items);
@@ -58,14 +58,16 @@ function generatitem(items) {
   
   `;
   items.forEach((item) => {
+
+    let id_=item.text.replace(/\s/g,'_');
     itemsHTML += `
     <div class="todo-item">
       <div class="check">
-          <div class="check-mark">
+          <div class="check-mark ${item.status=="completed"?"checked":"notchecked"}">
               <img src="./assets/icon-check.svg">
           </div>
       </div>
-      <div class="todo-text" id=${item.text}>
+      <div class="todo-text ${item.status=="completed"?"checked":"notchecked"}" id=${id_ }>
           ${item.text}
       </div>
     </div>
@@ -115,6 +117,7 @@ function createventlistner() {
       }, {
         onlyOnce: true
       });
+      setTimeout(getdata,600);
     })
   }
 }
