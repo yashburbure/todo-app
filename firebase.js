@@ -1,14 +1,14 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.2/firebase-app.js";
-import { getDatabase, ref, set, get, child, onValue, update, remove } from "https://www.gstatic.com/firebasejs/9.6.2/firebase-database.js"
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.3/firebase-app.js";
+import { getDatabase, ref, set, get, child, onValue, update, remove } from "https://www.gstatic.com/firebasejs/9.6.3/firebase-database.js"
 const firebaseConfig = {
-  apiKey: "AIzaSyBWfpBHd_Nesj7_BPOjio9yVjTLRoFVFII",
-  authDomain: "to-do-app-23875.firebaseapp.com",
-  databaseURL: "https://to-do-app-23875-default-rtdb.firebaseio.com",
-  projectId: "to-do-app-23875",
-  storageBucket: "to-do-app-23875.appspot.com",
-  messagingSenderId: "741523181823",
-  appId: "1:741523181823:web:e6a0bdc894fe7487b6bcca",
-  measurementId: "G-7L3R1GLZMR"
+  apiKey: "AIzaSyBUIA4tRkEv7srTT1Zg-4YC2asI1k_n9qU",
+  authDomain: "to-do-app-2-153b5.firebaseapp.com",
+  databaseURL: "https://to-do-app-2-153b5-default-rtdb.firebaseio.com",
+  projectId: "to-do-app-2-153b5",
+  storageBucket: "to-do-app-2-153b5.appspot.com",
+  messagingSenderId: "445675828227",
+  appId: "1:445675828227:web:940032c7b18d3322d48a36",
+  measurementId: "G-VP32D8FRZP"
 };
 
 const app = initializeApp(firebaseConfig);
@@ -59,15 +59,15 @@ function generatitem(items) {
   `;
   items.forEach((item) => {
 
-    let id_=item.text.replace(/\s/g,'_');
+    let id_ = item.text.replace(/\s/g, '_');
     itemsHTML += `
     <div class="todo-item">
       <div class="check">
-          <div class="check-mark ${item.status=="completed"?"checked":"notchecked"}">
+          <div class="check-mark ${item.status == "completed" ? "checked" : "notchecked"}">
               <img src="./assets/icon-check.svg">
           </div>
       </div>
-      <div class="todo-text ${item.status=="completed"?"checked":"notchecked"}" id=${id_ }>
+      <div class="todo-text ${item.status == "completed" ? "checked" : "notchecked"}" id=${id_}>
           ${item.text}
       </div>
     </div>
@@ -104,8 +104,8 @@ function createventlistner() {
           const updates = {};
           updates['/users/' + username] = postData;
           return update(ref(db), updates);
-        } 
-        else if(data.status==="completed"){
+        }
+        else if (data.status === "completed") {
           const postData = {
             text: data.text,
             status: "active"
@@ -117,7 +117,7 @@ function createventlistner() {
       }, {
         onlyOnce: true
       });
-      setTimeout(getdata,600);
+      setTimeout(getdata, 700);
     })
   }
 }
